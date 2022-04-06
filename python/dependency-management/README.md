@@ -1,8 +1,9 @@
 # Dependency Management Tutorial
 
 ## Overview
-The primary takeway here is that you want to think of your dependencies as two kinds: (1) [_direct dependencies_](#direct-depedency) and (2) [_transitively pinned dependencies_](#transitively-pinned-dependencies). Loose definitions are at the bottom of this page. I owe the majority of my understanding to [Itamar Turner-Trauring at Python⇒Speed](#1-pythonspeed) but it also took a lot of messing about `conda-lock` to get things just right.
+The primary takeway here is that you want to think of your dependencies as two kinds: (1) [_direct dependencies_](#direct-depedency) and (2) [_transitively pinned dependencies_](#transitively-pinned-dependencies). Loose definitions are at the bottom of this page. I owe the majority of my understanding to [Itamar Turner-Trauring at Python⇒Speed](#resources) but it also took a lot of messing about [conda-lock](#resources) to get things just right.
 
+## Walkthrough
 1. If you already have a python application you are trying to make reproducible and upgradeable, it is wise to start from scratch to get all of your direct dependencies right first. Create a file named `environment.yml` and put this inside:
 
 ```yaml
@@ -43,5 +44,5 @@ dependencies:
     \\\\ in the above example with pandas, numpy would need to be transitively pinned
     
 # Resources
-#### 1. pythonspeed
- * https://pythonspeed.com/articles/conda-dependency-management/
+* pythonspeed — [Reproducible and upgradable Conda environments with conda-lock](https://pythonspeed.com/articles/conda-dependency-management/)
+* conda-lock — [github repo](https://github.com/conda-incubator/conda-lock)
