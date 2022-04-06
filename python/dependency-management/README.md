@@ -3,6 +3,18 @@
 ## Overview
 The primary takeway here is that you want to think of your dependencies as two kinds: (1) [_direct dependencies_](#direct-depedency) and (2) [_transitively pinned dependencies_](#transitively-pinned-dependencies). Loose definitions are at the bottom of this page. I owe the majority of my understanding to [Itamar Turner-Trauring at Python⇒Speed](#resources) but it also took a lot of messing about [conda-lock](#resources) to get things just right.
 
+## Asumptions
+1. You are using conda to manage your environment and packages (avoid pip and use the conda channel `conda-forge` always and forever)
+2. I am using a really example where there is some application we are trying to make reproducible and upgradeable
+```bash
+.
+└── app.py
+```
+```python
+# ./app.py
+import pandas as pd
+```
+
 ## Walkthrough
 1. If you already have a python application you are trying to make reproducible and upgradeable, it is wise to start from scratch to get all of your direct dependencies right first. Create a file named `environment.yml` and put this inside:
 
