@@ -16,6 +16,14 @@ import pandas as pd
 ```
 
 ## Walkthrough
+### No application yet:
+As you run multiple `conda install -c conda-forge <package>=<version>`, you can rest certain that, once you have installed the minimum number of direct dependencies to get your project moving, you can run the following to get your `environment.yml` file:
+```bash
+$ conda env export --from-history > environment.yml
+```
+The nice thing about the `--from-history` flag is that it only takes into account your _direct dependencies_.
+
+### Already have an application:
 1. If you already have a python application you are trying to make reproducible and upgradeable, it is wise to start from scratch to get all of your direct dependencies right first. Create a file named `environment.yml` and put this inside:
 
 ```yaml
