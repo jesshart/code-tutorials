@@ -1,4 +1,9 @@
 # Dependency Management Tutorial
+Versions
+```bash
+conda 4.12.0
+conda-lock 1.0.5
+```
 
 ## Overview
 The primary takeway here is that you want to think of your dependencies as two kinds: (1) [_direct dependencies_](#direct-depedency) and (2) [_transitively pinned dependencies_](#transitively-pinned-dependencies). Loose definitions are at the bottom of this page. I owe the majority of my understanding to [Itamar Turner-Trauring at Python⇒Speed](#resources) but it also took a lot of messing about [conda-lock](#resources) to get things just right.
@@ -14,16 +19,26 @@ The primary takeway here is that you want to think of your dependencies as two k
 # ./app.py
 import pandas as pd
 ```
+3. I prefer to install `conda-lock` into my `(base)` enviroment since it helps me manage packages, but that is up to you. For this tutorial, it is assumed you have it installed in `(base)`:
+```bash
+(base) $ conda install -c conda-forge conda-lock=1.0.5
+```
 
 ## Walkthrough
-### No application yet:
+### Locking dependencies for a new project:
 As you run multiple `conda install -c conda-forge <package>=<version>`, you can rest certain that, once you have installed the minimum number of direct dependencies to get your project moving, you can run the following to get your `environment.yml` file:
 ```bash
 $ conda env export --from-history > environment.yml
 ```
-The nice thing about the `--from-history` flag is that it only takes into account your _direct dependencies_.
+The nice thing about the `--from-history` flag is that it only takes into account your _direct dependencies_. However, if you did not specify versions when you explicity ran the  `conda install` command, you will need to add versions of your _direct dependencies_ manually to your `environment.yml`. You can use `conda list` for this:
+```bash
+$ conda list | grep <package>
+```
+You may prefer a more programatic way of accomplishing the above.
 
-### Already have an application:
+Warning: `--from-history` not work from an imported environment since your imported environment treats all dependencies as direct.
+
+### Locking dependencies for an existing project:
 1. If you already have a python application you are trying to make reproducible and upgradeable, it is wise to start from scratch to get all of your direct dependencies right first. Create a file named `environment.yml` and put this inside:
 
 ```yaml
@@ -47,11 +62,18 @@ dependencies:
 ```
 
 5. Fill in that name: with the name of the environment you want to create. Let's use `name: dependency-demo` for this walkthrough.
-6. Now that your direct dependency file is filled, and your app is working, we can now take care of transitively pinned dependencies which is a fancy way of saying we're going to lock down all dependencies exactly where they are (rememeber, there are dependencies underneath your direct dependencies). For this, we need a better tool that what conda offers, and that tool is `conda-lock` so run `conda install -c conda-forge conda-lock`
-7. As of the writing of this tutorial, `conda-lock` was undergoing some doc updates, so this may change but it was hard to figure out in the current state of things. You want to create a lock file from your direct dependency `environment.yml` file. We will leave out Windows os and do this: `conda-lock -f environment.yml -p osx-64 -p linux-64` 
-8. Step 7 creates a file called `conda-lock.yml` which represents your transitively pinned dependencies file. In order to reproduce your environment, you need to run the following : `conda-lock install -n dependency-demo` 
-9. To activate this environment, run `conda activate dependency-demo`
-
+6. Now that your direct dependency file is filled, and your app is working, we can now take care of transitively pinned dependencies which is a fancy way of saying we're going to lock down all dependencies exactly where they are (rememeber, there are dependencies underneath your direct dependencies). As of the writing of this tutorial, `conda-lock` was undergoing some doc updates, so this may change but it was hard to figure out in the current state of things. You want to create a lock file from your direct dependency `environment.yml` file. We will leave out Windows os and do this: `conda-lock -f environment.yml`. This step creates a file called `conda-lock.yml` which represents your transitively pinned dependencies file.
+### Importing from locked environment:
+#### From `.lock` file
+```bash
+TBD
+```
+#### From .yml file
+```bash
+$ conda-lock install -n <whatever_env_name_you_want>
+...
+$ conda activate <the_env_name_from_above>
+```
 # Terms
 
 #### direct depedency
