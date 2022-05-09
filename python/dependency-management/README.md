@@ -66,13 +66,13 @@ dependencies:
 ### Importing from locked environment:
 #### From `.lock` file
 ```bash
-TBD
+$ conda create -n YOURENV --file CONDA-LOCK-FILE.lock
 ```
-#### From .yml file
+#### From `.yml` file
 ```bash
-$ conda-lock install -n <whatever_env_name_you_want>
+$ conda-lock install --name YOURENV conda-lock.yml
 ...
-$ conda activate <the_env_name_from_above>
+$ conda activate YOURENV
 ```
 # Terms
 
